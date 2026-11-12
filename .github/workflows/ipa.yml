@@ -103,7 +103,7 @@ concurrency:
 jobs:
   build:
     name: Build IPA with tweaks
-    runs-on: macos-latest
+    runs-on: macos-26-intel
     permissions:
       contents: write
 
@@ -130,6 +130,9 @@ jobs:
           IPA_URL: ${{ inputs.ipa_url }}
         run: |
           wget "$IPA_URL" --quiet --no-verbose -O youtube.ipa
+
+      - name: Verify approved source IPA
+        run: echo '60a7258a1d2ce22485370bd28d8a709c7a6b125155ce2c43a723ff94a8d6bd32  youtube.ipa' | shasum -a 256 -c -
 
       - name: Validate IPA
         run: |
